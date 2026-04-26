@@ -1,6 +1,6 @@
 import streamlit as st
 import json
-from utils import get_rule_based_answer, get_hf_answer
+from utils import get_rule_based_answer, get_claude_answer
 
 # Load rules
 with open("rules.json", "r") as f:
@@ -31,7 +31,7 @@ if prompt := st.chat_input("Ask me anything..."):
         if rule_answer:
             answer = rule_answer
         else:
-            answer = get_hf_answer(prompt)
+            answer = get_claude_answer(prompt, st.session_state["messages"][:-1])
 
     st.session_state["messages"].append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
